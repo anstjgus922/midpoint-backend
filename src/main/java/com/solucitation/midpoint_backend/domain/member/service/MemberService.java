@@ -307,7 +307,6 @@ public class MemberService {
         String profileImageUrl = imageRepository.findByMemberIdAndPostIsNull(member.getId())
                 .map(Image::getImageUrl)
                 .orElse(null);
-
         return new MemberProfileResponseDto(
                 member.getName(),
                 member.getNickname(),
@@ -429,21 +428,28 @@ public class MemberService {
         Optional<Image> image = imageRepository.findByMemberIdAndPostIsNull(member.getId());
         String imageUrl = null;
 
+        String default_profile_image_url = String.format("https://%s.s3.%s.amazonaws.com/%s", bucket, "ap-northeast-2", "profile-images/default_image.png").toLowerCase().trim();
+
         if (image.isPresent()) {
             Image presentImage = image.get();
-            imageUrl = presentImage.getImageUrl();
-            s3Service.delete(imageUrl); // S3 삭제
-            imageRepository.delete(presentImage); // Image 엔티티 삭제
+            imageUrl = presentImage.getImageUrl().toLowerCase().trim();
+//            log.info("imageUrl은 ?? " + imageUrl);
+//            log.info("default_image_url은 ?? " + default_profile_image_url);
+            if (!imageUrl.equals(default_profile_image_url)){ // 기본 이미지가 아닌 경우에만 S3에서 삭제
+                log.info("기본 이미지와 삭제할 멤버의 프로필 이미지가 다릅니다.");
+                s3Service.delete(imageUrl); // S3 삭제
+            }
+            log.info("기본 이미지와 삭제할 멤버의 프로필 이미지가 같습니다.");
+            imageRepository.delete(presentImage); // Image 엔티티는 기본 이미지 여부와 상관없이 삭제
         }
 
-        likesRepository.deleteByMemberId(member.getId()); // 좧아요 기록 일괄 삭제
+        likesRepository.deleteByMemberId(member.getId()); // 좋아요 기록 일괄 삭제
 
         List<SearchHistoryV2> deleteList = searchHistoryRepository.findByMemberOrderBySearchDateDesc(member);
 
         for (SearchHistoryV2 searchHistory : deleteList) {
             List<PlaceInfoV2> placeInfos = searchHistory.getPlaceList(); // 해당 검색 기록과 연관된 PlaceInfoV2 삭제
             placeInfoRepository.deleteAll(placeInfos);
-
             searchHistoryRepository.delete(searchHistory); // 검색 기록 삭제
         }
 

@@ -124,7 +124,6 @@ public class MemberController2 {
         String tokenEmail = jwtTokenProvider.extractEmailFromToken(jwtTokenProvider.resolveToken(deleteToken));
         String profileImgUrl = memberService.deleteMember(tokenEmail); // 프로필 이미지와 멤버 엔티티 삭제
         log.info("profileImgUrl는 by test? " + profileImgUrl);
-        s3Service.delete(profileImgUrl); // 프로필 이미지 S3에서 삭제
         String refreshToken = jwtTokenProvider.resolveToken(refreshTokenHeader); // Authorization 헤더에서 Bearer 토큰을 제외한 Refresh Token만 추출
         memberService.logoutMember(refreshToken); // 로그아웃 처리
         return ResponseEntity.ok(Map.of("message", "회원 탈퇴가 성공적으로 완료되었습니다."));

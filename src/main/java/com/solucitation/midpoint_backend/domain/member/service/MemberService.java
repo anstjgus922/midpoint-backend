@@ -98,7 +98,7 @@ public class MemberService {
      * @return 로그인 아이디가 이미 사용 중이면 true, 아니면 false
      */
     public boolean isLoginIdAlreadyInUse(String loginId) {
-        return memberRepository.findByNickname(loginId).isPresent();
+        return memberRepository.findByLoginId(loginId).isPresent();
     }
 
     /**

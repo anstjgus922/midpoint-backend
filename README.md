@@ -1,10 +1,16 @@
-# Backend
+# 👥 𝗠𝗶𝗱𝗣𝗼𝗶𝗻𝘁-𝗕𝗮𝗰𝗸𝗲𝗻𝗱 👥
+
+> [MidPoint 프로젝트 설명 바로 가기](https://github.com/Solucitation)
+
+</br>
 
 ## ✨Main 기능
 - 회원가입/로그인
 - 목적에 맞는 중간지점 찾기
 - 커뮤니티 게시판
 - 즐겨찾기 장소/친구
+
+</br>
 
 ## 👩‍💻 역할 분담
 | 이름   | 프로필                                                              | 역할분담 |
@@ -13,6 +19,7 @@
 | 문서현 | <img src="https://github.com/user-attachments/assets/494b790b-7d8f-4aff-b86a-8f641f08cb29" width="100"/> | 목적에 맞는 중간지점 찾기, 즐겨찾기 장소/친구 |
 | 최연재 | <img src="https://github.com/user-attachments/assets/3edd11dd-ef2d-46c0-9c5f-5ade1b3b7d75" width="100"/> | 커뮤니티 게시판, erd 설계 |
 
+</br>
 
 ## 🌳 프로젝트 구조
 ```
